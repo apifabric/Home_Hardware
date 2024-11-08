@@ -1,0 +1,354 @@
+about:
+  date: November 08, 2024 15:35:05
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 11
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Category:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: id
+    description: Represents product categories, such as tools or paint.
+    info_list: Represents product categories, such as tools or paint.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - category_id
+      name: ProductList
+      resource: Product
+    type: Category
+    user_key: name
+  Customer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+    - name: phone
+    - name: address
+    - name: registration_date
+      type: DATETIME
+    - name: id
+    description: Represents customers of the hardware store.
+    info_list: Represents customers of the hardware store.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: OrderList
+      resource: Order
+    type: Customer
+    user_key: name
+  Department:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: manager_id
+    - name: id
+    description: Represents different departments within the hardware store.
+    info_list: Represents different departments within the hardware store.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - department_id
+      name: EmployeeDepartmentList
+      resource: EmployeeDepartment
+    - direction: toone
+      fks:
+      - manager_id
+      name: manager
+      resource: Employee
+    type: Department
+    user_key: name
+  Discount:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: product_id
+      required: true
+    - name: discount_percentage
+      required: true
+    description: Represents discounts available on products.
+    info_list: Represents discounts available on products.
+    tab_groups:
+    - direction: toone
+      fks:
+      - product_id
+      name: product
+      resource: Product
+    type: Discount
+    user_key: id
+  Employee:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: position
+    - name: salary
+      required: true
+    - name: hire_date
+      type: DATETIME
+    - name: id
+    description: Represents employees working in the hardware store.
+    info_list: Represents employees working in the hardware store.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - manager_id
+      name: DepartmentList
+      resource: Department
+    - direction: tomany
+      fks:
+      - employee_id
+      name: EmployeeDepartmentList
+      resource: EmployeeDepartment
+    type: Employee
+    user_key: name
+  EmployeeDepartment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: department_id
+      required: true
+    - name: employee_id
+      required: true
+    - name: start_date
+      type: DATETIME
+    description: Represents the relationship between employees and departments.
+    info_list: Represents the relationship between employees and departments.
+    tab_groups:
+    - direction: toone
+      fks:
+      - department_id
+      name: department
+      resource: Department
+    - direction: toone
+      fks:
+      - employee_id
+      name: employee
+      resource: Employee
+    type: EmployeeDepartment
+    user_key: id
+  Inventory:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: product_id
+      required: true
+    - name: available_quantity
+      required: true
+    - name: last_updated
+      type: DATETIME
+    description: Represents inventory records with product quantities.
+    info_list: Represents inventory records with product quantities.
+    tab_groups:
+    - direction: toone
+      fks:
+      - product_id
+      name: product
+      resource: Product
+    type: Inventory
+    user_key: id
+  Order:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: order_date
+      type: DATETIME
+    - name: total_amount
+    - name: shipped
+    description: Represents customer orders placed with the hardware store.
+    info_list: Represents customer orders placed with the hardware store.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - order_id
+      name: OrderItemList
+      resource: OrderItem
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    type: Order
+    user_key: id
+  OrderItem:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: order_id
+      required: true
+    - name: product_id
+      required: true
+    - name: quantity
+      required: true
+    - name: total_price
+      required: true
+    description: Represents items in a customer order.
+    info_list: Represents items in a customer order.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - order_item_id
+      name: ReturnList
+      resource: Return
+    - direction: toone
+      fks:
+      - order_id
+      name: order
+      resource: Order
+    - direction: toone
+      fks:
+      - product_id
+      name: product
+      resource: Product
+    type: OrderItem
+    user_key: id
+  Product:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: category_id
+    - name: supplier_id
+    - name: description
+    - name: price
+      required: true
+    - name: stock_quantity
+      required: true
+    - name: id
+    description: Represents products available in the hardware store.
+    info_list: Represents products available in the hardware store.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - product_id
+      name: DiscountList
+      resource: Discount
+    - direction: tomany
+      fks:
+      - product_id
+      name: InventoryList
+      resource: Inventory
+    - direction: tomany
+      fks:
+      - product_id
+      name: OrderItemList
+      resource: OrderItem
+    - direction: toone
+      fks:
+      - category_id
+      name: category
+      resource: Category
+    - direction: toone
+      fks:
+      - supplier_id
+      name: supplier
+      resource: Supplier
+    type: Product
+    user_key: name
+  Return:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: order_item_id
+      required: true
+    - name: return_date
+      type: DATETIME
+    - name: refund_amount
+      required: true
+    description: Represents product returns from customers.
+    info_list: Represents product returns from customers.
+    tab_groups:
+    - direction: toone
+      fks:
+      - order_item_id
+      name: order_item
+      resource: OrderItem
+    type: Return
+    user_key: id
+  Supplier:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: contact_name
+    - name: contact_email
+    - name: phone
+    - name: id
+    description: Represents suppliers who provide products to the hardware store.
+    info_list: Represents suppliers who provide products to the hardware store.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - supplier_id
+      name: ProductList
+      resource: Product
+    type: Supplier
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

@@ -1,0 +1,125 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Category: Represents product categories, such as tools or paint.
+Customer: Represents customers of the hardware store.
+Department: Represents different departments within the hardware store.
+Employee: Represents employees working in the hardware store.
+Discount: Represents discounts available on products.
+Product: Represents products available in the hardware store.
+EmployeeDepartment: Represents the relationship between employees and departments.
+Inventory: Represents inventory records with product quantities.
+Order: Represents customer orders placed with the hardware store.
+OrderItem: Represents items in a customer order.
+Supplier: Represents suppliers who provide products to the hardware store.
+Return: Represents product returns from customers.
+'''
+}
+
+Table Category {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    }
+
+Table Customer {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    phone VARCHAR 
+    address VARCHAR 
+    registration_date DATETIME 
+    }
+
+Table Department {
+    id INTEGER [primary key]
+    name VARCHAR 
+    manager_id INTEGER 
+    }
+
+Table Employee {
+    id INTEGER [primary key]
+    name VARCHAR 
+    position VARCHAR 
+    salary FLOAT 
+    hire_date DATETIME 
+    }
+
+Table Discount {
+    id INTEGER [primary key]
+    product_id INTEGER 
+    discount_percentage FLOAT 
+    }
+
+Table Product {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    price FLOAT 
+    stock_quantity INTEGER 
+    category_id INTEGER 
+    supplier_id INTEGER 
+    }
+
+Table EmployeeDepartment {
+    id INTEGER [primary key]
+    employee_id INTEGER 
+    department_id INTEGER 
+    start_date DATETIME 
+    }
+
+Table Inventory {
+    id INTEGER [primary key]
+    product_id INTEGER 
+    available_quantity INTEGER 
+    last_updated DATETIME 
+    }
+
+Table Order {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    order_date DATETIME 
+    total_amount FLOAT 
+    shipped BOOLEAN 
+    }
+
+Table OrderItem {
+    id INTEGER [primary key]
+    order_id INTEGER 
+    product_id INTEGER 
+    quantity INTEGER 
+    total_price FLOAT 
+    }
+
+Table Supplier {
+    id INTEGER [primary key]
+    name VARCHAR 
+    contact_name VARCHAR 
+    contact_email VARCHAR 
+    phone VARCHAR 
+    }
+
+Table Return {
+    id INTEGER [primary key]
+    order_item_id INTEGER 
+    return_date DATETIME 
+    refund_amount FLOAT 
+    }
+
+
+
+// Relationships
+    Ref: Department.(manager_id) < Employee.(id)
+    Ref: Discount.(product_id) < Product.(id)
+    Ref: Product.(category_id) < Category.(id)
+    Ref: Product.(supplier_id) < Supplier.(id)
+    Ref: EmployeeDepartment.(department_id) < Department.(id)
+    Ref: EmployeeDepartment.(employee_id) < Employee.(id)
+    Ref: Inventory.(product_id) < Product.(id)
+    Ref: Order.(customer_id) < Customer.(id)
+    Ref: OrderItem.(order_id) < Order.(id)
+    Ref: OrderItem.(product_id) < Product.(id)
+    Ref: Return.(order_item_id) < OrderItem.(id)

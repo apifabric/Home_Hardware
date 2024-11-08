@@ -1,0 +1,51 @@
+<o-form-layout-manager attr="EmployeeDepartment" mode="tab" title="EMPLOYEEDEPARTMENT">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="EmployeeDepartmentTable" 
+            service="EmployeeDepartment" 
+            entity="EmployeeDepartment" 
+            title="EMPLOYEEDEPARTMENT"
+            keys="id"
+            columns="id;department_id;employee_id;start_date" 
+            header-actions="R;D"
+            visible-columns="id;department_id;employee_id;start_date"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="department_id" title="department_id">
+    <o-table-cell-renderer-service attr="department_id" 
+        service="Department" entity="DepartmentType" columns="id;name"
+        parent-keys="id:department_id"
+        value-column="name" keys="department_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="employee_id" title="employee_id">
+    <o-table-cell-renderer-service attr="employee_id" 
+        service="Employee" entity="EmployeeType" columns="id;name"
+        parent-keys="id:employee_id"
+        value-column="name" keys="employee_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-date-input #start_date attr="start_date" type="timestamp" label="start_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
